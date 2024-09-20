@@ -1,0 +1,126 @@
+
+
+ 
+<div class="blocl_calc">
+  <div class="calc_s">
+   <div class="mb-3">Введите параметры, мм</div>
+   <div style="margin-bottom:10px">  <input class="form-control" placeholder="Высота, L" id="numL"/></div>
+   <div style="margin-bottom:10px"> <input class="form-control" placeholder="Центр бака, A" id="numA"/></div>
+    <div class= "mb-3">Центр бака - прямоугольная чаcть бака до закругления</div>
+   <div style="margin-bottom:10px"> <input class="form-control" placeholder="Глубина, B" id="numB"/></div>
+   <div id="dTruba">
+    <div class="mb-2">Диаметр трубы (d), мм:</div>
+        <div>
+           <input type="radio"  name="dTruba" value="100" />
+           <label for="dewey">100</label>
+          </div>
+    
+         <div>
+            <input type="radio" name="dTruba" value="115" checked />
+            <label for="huey">115</label>
+         </div>
+    
+         <div>
+           <input type="radio"  name="dTruba" value="120" />
+           <label for="louie">120</label>
+         </div>
+       </div>
+     
+     <br/>
+    <div id="shtamp">
+    <div class="mb-2">Выштампованный край торца бака:</div>
+      <div>
+      <input type="radio" name="shtampell" value="0" checked />
+      <label for="huey">Нет</label>
+    </div>
+  
+    <div class="mb-2">
+      <input type="radio"  name="shtampell" value="25" />
+      <label for="dewey">Есть</label>
+    </div>
+    </div>
+    
+     <div class="block_result_Elips">
+        <button class="btn_result_Elips" onclick="funcElips()">Рассчитать</button>
+        <div id="result_Elips">0.00</div><div class="litr">л.</div>
+     </div>
+     <div id="mistakes_elips"></div>
+  
+   </div>
+       <div>
+           <img class="calc_img" src="https://static.tildacdn.com/tild3835-3638-4038-b664-626532343239/photo.jpg">
+       </div>
+       
+       </div>
+       
+       
+     
+     <div class="pogreshnost">*Погрешность расчета может составлять 2-3% из-за особенностей конструкции бака.</div> 
+      
+       <script>
+    document.addEventListener("DOMContentLoaded", function(){
+            document.getElementById("numL").value = "";
+            document.getElementById("numA").value = "";
+            document.getElementById("numB").value = "";
+            document.getElementById("shtampHend").value = "";
+            
+  })
+      function funcElips(){
+            
+            let numL = Number(document.getElementById("numL").value);
+            let numA = Number(document.getElementById("numA").value)/1000;
+            let numB = Number(document.getElementById("numB").value)/1000;
+        
+        let hStamp = () => {
+          let shtamp = document.querySelectorAll('input[name="shtampell"]');
+          for (const f of shtamp) {
+            if (f.checked) {
+              return f.value;
+            }
+          }
+        }
+        
+        
+        let checkTrubaEll = () => {
+          let dTruba = document.querySelectorAll('input[name="dTruba"]');
+          for (const f of dTruba) {
+            if (f.checked) {
+              return f.value;
+            }
+          }
+        }
+        
+        numL = (numL - hStamp()) / 1000;
+        let rnumB = numB / 2;
+        
+        let vTruba = ((numL) * Math.PI * (Math.pow(checkTrubaEll(), 2)/4))/1000;
+        
+        let result_Сylinder = (numL * Math.PI * Math.pow(rnumB, 2) * 1000);
+        let result_Сenter = numL * numA * numB * 1000;
+        
+        
+        let result_Elips = (result_Сylinder + result_Сenter) - vTruba;
+        
+           if (result_Elips < 1) {
+            document.getElementById("mistakes_elips").innerHTML = "Введите значения";
+              document.getElementById("result_Elips").innerHTML = "0";
+          } else
+       
+        
+           if (isNaN(result_Elips)) {
+              document.getElementById("mistakes_elips").innerHTML = "Введите числовое значение";
+              document.getElementById("result_Elips").innerHTML = "0";
+          } else 
+  
+          if (!isNaN(result_Elips)) {
+              document.getElementById("mistakes_elips").innerHTML = "";
+             document.getElementById("result_Elips").innerHTML = result_Elips.toFixed(2);
+          }
+  
+              
+       
+            }
+            
+           
+   </script>
+
